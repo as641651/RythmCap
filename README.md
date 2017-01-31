@@ -1,5 +1,5 @@
 # RythmCap
-This repository contains the algorthim that captions your music tracks just like [Prof. Paolo Bientinesi](http://hpac.rwth-aachen.de/~pauldj).  
+This repository contains the algorthim that tries to mimic the music track captions of [Prof. Paolo Bientinesi](http://hpac.rwth-aachen.de/~pauldj). (Still under construction)
 
 ## Clone this repository
 
