@@ -20,6 +20,11 @@ function parse(arg)
 end
 
 local opts = parse(arg)
+if opts.gpu >= 0 then  
+   require 'cunn'
+   require 'cutorch'
+end
+
 print("Loading model " .. opts.m)
 local model = torch.load(opts.m)
 
@@ -28,8 +33,6 @@ local dtype = 'torch.FloatTensor'
 torch.setdefaulttensortype(dtype)
 torch.manualSeed(model.opt.seed)
 if opts.gpu >= 0 then  
-   require 'cunn'
-   require 'cutorch'
    cutorch.manualSeed(model.opt.seed)
    cutorch.setDevice(opts.gpu + 1) -- note +1 because lua is 1-indexed
    dtype = 'torch.CudaTensor'

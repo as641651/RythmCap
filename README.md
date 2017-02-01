@@ -1,5 +1,5 @@
 # RythmCap
-This repository contains the algorthim that tries to mimic the music track captioning style of [Prof. Paolo Bientinesi](http://hpac.rwth-aachen.de/~pauldj). (Still under construction)
+This repository contains the algorthim that tries to mimic the music captioning style of [Prof. Paolo Bientinesi](http://hpac.rwth-aachen.de/~pauldj). (Still under construction)
 
 ## Clone this repository
 
@@ -35,5 +35,5 @@ Python dependencies:
 ## Usage
 
 ```bash
-th caption.lua -i <path_to_input_track>
+th caption.lua -i <path_to_input_track> -m <path_to_model>
 ```
