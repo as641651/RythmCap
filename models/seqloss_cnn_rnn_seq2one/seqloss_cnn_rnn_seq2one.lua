@@ -3,8 +3,8 @@ local utils = require 'utils'
 local classifier = {}
 
 function classifier.setOpts(opt)
-   classifier.sigmoid_wt =  opt.sigmoid_wt 
-   classifier.seq_wt = opt.seq_wt 
+   classifier.sigmoid_wt = 1.0--  opt.sigmoid_wt 
+   classifier.seq_wt = 0.0 -- opt.seq_wt 
    classifier.vocab_size = opt.classifier_vocab_size
    classifier.xdim = opt.feature_xdim
    classifier.loader_info = opt.loader_info
@@ -72,7 +72,7 @@ function classifier.forward(input,add)
    if cls_label:numel() > 10 then cls_label = cls_label[{{1,10}}] end
    smooth_out = smooth_out:index(1,cls_label)   
    for i = 1,smooth_out:size(1) do
-     if smooth_out[i] > 0.1 then output[cls_label[i]] = smooth_out[i] end
+     if smooth_out[i] > 0.2 then output[cls_label[i]] = smooth_out[i] end
    end
 
    return output

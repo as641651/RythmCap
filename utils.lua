@@ -44,4 +44,12 @@ function utils.tensor_to_table(input)
   return t
 end
 
+function utils.count_keys(t)
+  local n = 0
+  for k,v in pairs(t) do
+    n = n + 1
+  end
+  return n
+end
+
 return utils
