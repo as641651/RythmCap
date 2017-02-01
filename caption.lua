@@ -20,16 +20,21 @@ function parse(arg)
 end
 
 local opts = parse(arg)
+print("Loading model " .. opts.m)
+local model = torch.load(opts.m)
 
 require 'cunn' --TODO MAke model cpu compatable
 local dtype = 'torch.FloatTensor'
+torch.setdefaulttensortype(dtype)
+torch.manualSeed(model.opt.seed)
 if opts.gpu >= 0 then  
    require 'cunn'
+   require 'cutorch'
+   cutorch.manualSeed(model.opt.seed)
+   cutorch.setDevice(opts.gpu + 1) -- note +1 because lua is 1-indexed
    dtype = 'torch.CudaTensor'
 end
 
-print("Loading model " .. opts.m)
-local model = torch.load(opts.m)
 local classifier = require(model.opt.classifier)
 model.cnn:type(dtype)
 model.rnn:type(dtype)
@@ -38,7 +43,7 @@ classifier.setOpts(model.opt)
 classifier.init(model.cnn, model.rnn, model.mlp)
 
 print("Extracting spectogram ...")
-os.execute('python audio_processor.py -i ' .. opts.i)
+os.execute('python audio_processor.py -i \"' .. opts.i .. "\"")
 print("Done extracting")
 local h5_cache = hdf5.open("cache.h5",'r')
 local input = h5_cache:read("/1"):all()
