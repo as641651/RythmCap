@@ -26,6 +26,7 @@ luarocks install hdf5
 For GPU acceleration (Optional)
 
 ```bash
+luarocks install cutorch
 luarocks install cunn
 ```
 Python dependencies:
@@ -37,3 +38,10 @@ Python dependencies:
 ```bash
 th caption.lua -i <path_to_input_track> -m <path_to_model>
 ```
+
+To see the tags used by the model, use the option '-v'
+```bash
+th caption.lua -m <path_to_model> -v
+```
+
+[Download Sample model](https://drive.google.com/open?id=0B8Uc-OssxXlDV1FheU1BVEdkVVE) [~145MB]
