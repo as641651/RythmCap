@@ -24,7 +24,7 @@ local opts = parse(arg)
 if opts.gpu >= 0 then  
    require 'cutorch'
    require 'cunn'
-   require 'cudnn'
+   --require 'cudnn'
 end
 
 if opts.m == '' then print("Please specify a model"); os.exit() end
