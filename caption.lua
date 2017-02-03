@@ -21,14 +21,15 @@ end
 
 local opts = parse(arg)
 if opts.gpu >= 0 then  
-   require 'cunn'
    require 'cutorch'
+   require 'cunn'
+   require 'cudnn'
 end
 
 print("Loading model " .. opts.m)
 local model = torch.load(opts.m)
 
-require 'cunn' --TODO MAke model cpu compatable
+--require 'cunn' --TODO MAke model cpu compatable
 local dtype = 'torch.FloatTensor'
 torch.setdefaulttensortype(dtype)
 torch.manualSeed(model.opt.seed)
@@ -39,6 +40,10 @@ if opts.gpu >= 0 then
 end
 
 local classifier = require(model.opt.classifier)
+--cudnn.convert(model.cnn, cudnn)
+--cudnn.convert(model.rnn, cudnn)
+
+model.rnn:get(1):evaluate()
 model.cnn:type(dtype)
 model.rnn:type(dtype)
 model.mlp:type(dtype)
@@ -51,15 +56,14 @@ print("Done extracting")
 local h5_cache = hdf5.open("cache.h5",'r')
 local input = h5_cache:read("/1"):all()
 local max_seq = model.opt.max_clips_per_song
+input = input:type(dtype)
 input = utils.splitInput(input,model.opt.feature_xdim,model.opt.feature_xdim,max_seq)
 
-input = input:type(dtype)
 print("Solving ... ")
+classifier.clearState()
 local output = classifier.forward(input,nil)
 print("Tags for " .. opts.i .. " : ")
-for k,v in pairs(output) do
+for k,v in utils.spairs(output,function(t,a,b) return t[b] < t[a] end) do
   print(model.opt.loader_info.idx_to_token[k], v)
 end
-
-
 

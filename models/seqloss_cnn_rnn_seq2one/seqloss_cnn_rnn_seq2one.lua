@@ -3,8 +3,8 @@ local utils = require 'utils'
 local classifier = {}
 
 function classifier.setOpts(opt)
-   classifier.sigmoid_wt = 1.0--  opt.sigmoid_wt 
-   classifier.seq_wt = 0.0 -- opt.seq_wt 
+   classifier.sigmoid_wt =   opt.sigmoid_wt 
+   classifier.seq_wt =  opt.seq_wt 
    classifier.vocab_size = opt.classifier_vocab_size
    classifier.xdim = opt.feature_xdim
    classifier.loader_info = opt.loader_info
@@ -58,6 +58,12 @@ function classifier.forward(input,add)
    local norm = classifier.cnn:get(1):forward(input:view(num_clips*feat_len,classifier.xdim))
    norm = norm:view(num_clips,1,feat_len,classifier.xdim)
    local cnn_output = classifier.cnn:get(2):forward(norm)
+  -- local cnn_1 = classifier.cnn:get(2):get(1):forward(norm)
+  -- local cnn_2 = classifier.cnn:get(2):get(2):forward(cnn_1)
+  -- local cnn_3 = classifier.cnn:get(2):get(3):forward(cnn_2)
+  -- local cnn_4 = classifier.cnn:get(2):get(4):forward(cnn_3)
+  -- local cnn_output = classifier.cnn:get(2):get(5):forward(cnn_4)
+
    cnn_output = cnn_output:view(cnn_output:size(1),-1)
 
    local rnn_in = utils.tensor_to_table(cnn_output)
