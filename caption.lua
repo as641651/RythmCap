@@ -13,7 +13,7 @@ function parse(arg)
   -- Run time opts
   cmd:option('-i', '', 'input music file') 
   cmd:option('-m', 'models/seqloss_cnn_rnn_seq2one/wave01_f15.json.t7', 'input model') 
-  cmd:option('-gpu', 0, 'which gpu to use. -1 = use CPU')
+  cmd:option('-gpu', -1, 'which gpu to use. 0 / 1 = GPU ID')
   cmd:text()
   local opt = cmd:parse(arg or {})
   return opt
@@ -29,7 +29,6 @@ end
 print("Loading model " .. opts.m)
 local model = torch.load(opts.m)
 
---require 'cunn' --TODO MAke model cpu compatable
 local dtype = 'torch.FloatTensor'
 torch.setdefaulttensortype(dtype)
 torch.manualSeed(model.opt.seed)
@@ -40,13 +39,12 @@ if opts.gpu >= 0 then
 end
 
 local classifier = require(model.opt.classifier)
---cudnn.convert(model.cnn, cudnn)
---cudnn.convert(model.rnn, cudnn)
-
-model.rnn:get(1):evaluate()
 model.cnn:type(dtype)
 model.rnn:type(dtype)
 model.mlp:type(dtype)
+model.cnn:evaluate()
+model.rnn:evaluate()
+model.mlp:evaluate()
 classifier.setOpts(model.opt)
 classifier.init(model.cnn, model.rnn, model.mlp)
 
