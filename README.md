@@ -1,5 +1,5 @@
 # RythmCap
-RythmCap uses deep learning to mimic the music captioning style of [Prof. Paolo Bientinesi](http://hpac.rwth-aachen.de/~pauldj). This project was carried out as a part of my Master thesis - ["Analyses of CNNs for automatic tagging of music tracks"](https://drive.google.com/file/d/1ljEz-KJPpg3KZHLHEh891Tl3DNh2V1Lp/view?usp=sharing). Framework used for training CNNs is available in [here](https://github.com/as641651/CNNs-for-automatic-tagging-of-music-tracks)
+RythmCap uses deep learning to mimic the music captioning style of [Prof. Paolo Bientinesi](http://hpac.rwth-aachen.de/~pauldj). This project was carried out as a part of my Master thesis - ["Analyses of CNNs for automatic tagging of music tracks"](https://drive.google.com/file/d/1ljEz-KJPpg3KZHLHEh891Tl3DNh2V1Lp/view?usp=sharing). Framework used for training CNN models is available in [another repository](https://github.com/as641651/CNNs-for-automatic-tagging-of-music-tracks)
 
 ## Clone this repository
 
